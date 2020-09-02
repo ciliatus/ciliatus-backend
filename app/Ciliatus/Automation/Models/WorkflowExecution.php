@@ -215,7 +215,7 @@ class WorkflowExecution extends Model
         if (is_null($this->started_at)) return;
 
         $diff = $this->getExpectedRuntimeDiffSeconds();
-        $tolerance = config('ciliatus_automation.workflow_expected_runtime_tolerance_seconds');
+        $tolerance = config('ciliatus_automation.workflow_expected_runtime_tolerance');
         $text = trans('ciliatus_automation::alerts.executions.runtime_exceeded');
 
         if ($diff + $tolerance > $this->runtime_exceedance_crit && !$this->has_runtime_exceedance_crit_alerted) {

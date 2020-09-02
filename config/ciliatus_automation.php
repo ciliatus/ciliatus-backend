@@ -2,6 +2,6 @@
 
 return [
 
-    'workflow_expected_runtime_tolerance_seconds' => 5
+    'workflow_expected_runtime_tolerance' => env('CILIATUS_AUTOMATION__WFL_RUNTIME_TOLERANCE', 5)
 
 ];

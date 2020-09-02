@@ -168,7 +168,7 @@ trait HasMonitorTrait
      */
     protected function monitorCacheKey(): string
     {
-        return sprintf('Ciliatus.%s.%s.%s.Monitor', $this::package(), $this::model(), $this->id);
+        return strtolower(sprintf('ciliatus.%s.%s.%s.monitor', $this::package(), $this::model(), $this->id));
     }
 
     /**
@@ -176,7 +176,7 @@ trait HasMonitorTrait
      */
     protected function monitorCacheTtl(): int
     {
-        return env(sprintf('CILIATUS_%s_%s_MONITOR_TTL', $this::package(), $this::model()), 120);
+        return config(strtolower(sprintf('ciliatus_monitoring.%s_%s_monitor_ttl', $this::package(), $this::model())));
     }
 
     /**
