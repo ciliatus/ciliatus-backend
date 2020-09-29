@@ -31,6 +31,7 @@ class CiliatusServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->migrations();
         $this->routes();
         $this->authorize();
     }
@@ -59,6 +60,15 @@ class CiliatusServiceProvider extends ServiceProvider
                     return $user->hasPermission($package, $type);
                 });
             }
+        }
+    }
+
+    public function migrations()
+    {
+        foreach (static::$packages as $package) {
+            $path = __DIR__ . '/../Ciliatus/' . $package . '/Database/migrations';
+            if (file_exists($path))
+            $this->loadMigrationsFrom($path);
         }
     }
 }

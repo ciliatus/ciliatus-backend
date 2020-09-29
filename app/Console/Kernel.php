@@ -2,6 +2,11 @@
 
 namespace App\Console;
 
+use App\Ciliatus\Automation\Console\CalculateMaintenanceCommand;
+use App\Ciliatus\Common\Console\SeedCommand;
+use App\Ciliatus\Common\Console\SensorReadingSeedCommand;
+use App\Ciliatus\Common\Console\SetupCommand;
+use App\Ciliatus\Core\Console\RefreshMonitorCacheCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +18,11 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        CalculateMaintenanceCommand::class,
+        SeedCommand::class,
+        SensorReadingSeedCommand::class,
+        SetupCommand::class,
+        RefreshMonitorCacheCommand::class
     ];
 
     /**

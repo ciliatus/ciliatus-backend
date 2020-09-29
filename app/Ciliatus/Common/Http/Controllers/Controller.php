@@ -5,7 +5,7 @@ namespace App\Ciliatus\Common\Http\Controllers;
 
 use App\Ciliatus\Api\Http\Controllers\ControllerInterface;
 
-abstract class Controller extends \Ciliatus\Api\Http\Controllers\Controller implements ControllerInterface
+abstract class Controller extends \App\Ciliatus\Api\Http\Controllers\Controller implements ControllerInterface
 {
 
     /**

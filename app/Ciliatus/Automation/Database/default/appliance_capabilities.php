@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'model' => 'Ciliatus\Automation\Models\Capability',
+    'model' => 'App\Ciliatus\Automation\Models\Capability',
     'items' => [
         [
             'name' => trans('ciliatus.automation::appliance.capability.heat'),

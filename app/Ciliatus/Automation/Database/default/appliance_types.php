@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'model' => 'Ciliatus\Automation\Models\ApplianceType',
+    'model' => 'App\Ciliatus\Automation\Models\ApplianceType',
     'items' => [
         [
             'name' => trans('ciliatus.automation::appliance.type.heat_lamp'),

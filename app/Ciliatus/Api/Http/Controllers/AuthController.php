@@ -9,7 +9,9 @@ class AuthController extends Controller
 
     public function check__show()
     {
-        return $this->respondWithData(Auth::user()->transform());
+        $user = auth()->user();
+        $r = $this->request->user();
+        return Auth::user() ? $this->respondWithData(Auth::user()->transform()) : $this->respondUnauthenticated();
     }
 
 }

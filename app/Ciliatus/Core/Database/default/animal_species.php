@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'model' => 'Ciliatus\Core\Models\AnimalSpecies',
+    'model' => 'App\Ciliatus\Core\Models\AnimalSpecies',
     'items' => [
         [
             'animal_class_id' => 1,

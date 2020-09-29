@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'model' => 'Ciliatus\Core\Models\AnimalClass',
+    'model' => 'App\Ciliatus\Core\Models\AnimalClass',
     'items' => [
         [
             'name' => trans('ciliatus.core::animal.class.reptile'),

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'model' => 'Ciliatus\Core\Models\LocationType',
+    'model' => 'App\Ciliatus\Core\Models\LocationType',
     'items' => [
         [
             'name' => trans('ciliatus.core::location.types.room')

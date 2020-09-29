@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'model' => 'Ciliatus\Core\Models\HabitatType',
+    'model' => 'App\Ciliatus\Core\Models\HabitatType',
     'items' => [
         [
             'name' => trans('ciliatus.core::habitat.type.terrarium')

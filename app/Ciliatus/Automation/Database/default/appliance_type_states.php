@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'model' => 'Ciliatus\Automation\Models\ApplianceTypeState',
+    'model' => 'App\Ciliatus\Automation\Models\ApplianceTypeState',
     'items' => [
         [
             'appliance_type_id' => 1,

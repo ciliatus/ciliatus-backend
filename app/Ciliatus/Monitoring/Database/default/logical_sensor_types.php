@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'model' => 'Ciliatus\Monitoring\Models\LogicalSensorType',
+    'model' => 'App\Ciliatus\Monitoring\Models\LogicalSensorType',
     'items' => [
         [
             'name' => trans('ciliatus.monitoring::logical_sensor.name.temperature'),

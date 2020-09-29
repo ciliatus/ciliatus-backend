@@ -16,10 +16,13 @@ class SetupCommand extends Command
 
     public function handle()
     {
+        echo '# Generating app key ...' . PHP_EOL;
+        Artisan::call('key:generate');
+
         if (!$this->option('db-only')) {
             echo '# Setting up authentication provider ...' . PHP_EOL;
-            #Artisan::call('vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"');
-            #Artisan::call('ui vue --auth');
+            Artisan::call('vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"');
+            Artisan::call('jetstream:install livewire');
         }
 
         echo '# Migrating database ...' . PHP_EOL;

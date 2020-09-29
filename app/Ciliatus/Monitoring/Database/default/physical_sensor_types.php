@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'model' => 'Ciliatus\Monitoring\Models\PhysicalSensorType',
+    'model' => 'App\Ciliatus\Monitoring\Models\PhysicalSensorType',
     'items' => [
         [
             'model' => 'AM2302',
