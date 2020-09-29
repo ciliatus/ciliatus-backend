@@ -418,7 +418,7 @@ class Controller extends \App\Http\Controllers\Controller
             )
         );
 
-        return 'Ciliatus\\' . $this->package . '\\Models\\' . $class_name;
+        return '\\App\\Ciliatus\\' . $this->package . '\\Models\\' . $class_name;
     }
 
     /**

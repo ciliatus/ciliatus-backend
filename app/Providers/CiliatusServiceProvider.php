@@ -56,7 +56,7 @@ class CiliatusServiceProvider extends ServiceProvider
 
         foreach (static::$packages as $package) {
             foreach ($types as $type) {
-                Gate::define($type . '-api', function (User $user) use ($package, $type) {
+                Gate::define($type . '-' . strtolower($package), function (User $user) use ($package, $type) {
                     return $user->hasPermission($package, $type);
                 });
             }
