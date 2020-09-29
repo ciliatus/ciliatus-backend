@@ -13,16 +13,9 @@ class CiliatusAutomationServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->load();
         $this->observe();
         $this->providers();
         $this->schedule();
-    }
-
-    private function load()
-    {
-        $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
-        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'ciliatus.automation');
     }
 
     private function observe()

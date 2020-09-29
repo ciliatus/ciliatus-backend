@@ -2,6 +2,8 @@
 
 namespace App\Ciliatus\Core\Http\Controllers;
 
+use App\Ciliatus\Api\Attributes\CustomAction;
+use App\Ciliatus\Api\Http\Controllers\Actions\Action;
 use App\Ciliatus\Api\Traits\UsesDefaultDestroyMethodTrait;
 use App\Ciliatus\Api\Traits\UsesDefaultIndexMethodTrait;
 use App\Ciliatus\Api\Traits\UsesDefaultShowMethodTrait;
@@ -42,7 +44,8 @@ class AgentController extends Controller
      * @throws ModelNotFoundException
      * @throws AuthorizationException
      */
-    public function checkin__update(AgentCheckinRequest $request, int $id): JsonResponse
+    #[CustomAction(Action::UPDATE)]
+    public function checkin(AgentCheckinRequest $request, int $id): JsonResponse
     {
         $this->auth();
 
@@ -97,7 +100,8 @@ class AgentController extends Controller
      * @throws AuthorizationException
      * @throws ModelNotFoundException
      */
-    public function start_times__show(int $id): JsonResponse
+    #[CustomAction(Action::SHOW)]
+    public function start_times(int $id): JsonResponse
     {
         $this->auth();
 
@@ -119,7 +123,8 @@ class AgentController extends Controller
      * @throws ModelNotFoundException
      * @throws AuthorizationException
      */
-    public function config__show(int $id): JsonResponse
+    #[CustomAction(Action::SHOW)]
+    public function config(int $id): JsonResponse
     {
         $this->auth();
 
@@ -141,7 +146,8 @@ class AgentController extends Controller
      * @throws AuthorizationException
      * @throws ModelNotFoundException
      */
-    public function log__update(AgentLogRequest $request, int $id)
+    #[CustomAction(Action::UPDATE)]
+    public function log(AgentLogRequest $request, int $id)
     {
         $this->auth();
 
@@ -155,7 +161,8 @@ class AgentController extends Controller
      * @throws ModelNotFoundException
      * @throws AuthorizationException
      */
-    public function report_appliance_state__update(AgentReportApplianceStateRequest $request, int $id): JsonResponse
+    #[CustomAction(Action::UPDATE)]
+    public function report_appliance_state(AgentReportApplianceStateRequest $request, int $id): JsonResponse
     {
         $this->auth();
 
@@ -185,7 +192,8 @@ class AgentController extends Controller
      * @throws ModelNotFoundException
      * @throws AuthorizationException
      */
-    public function report_action_state__update(AgentReportActionStateRequest $request, int $id): JsonResponse
+    #[CustomAction(Action::UPDATE)]
+    public function report_action_state(AgentReportActionStateRequest $request, int $id): JsonResponse
     {
         $this->auth();
 

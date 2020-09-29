@@ -14,14 +14,8 @@ class CiliatusCommonServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->load();
         $this->schedule();
         $this->observe();
-    }
-
-    private function load()
-    {
-        $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
     }
 
     private function schedule()

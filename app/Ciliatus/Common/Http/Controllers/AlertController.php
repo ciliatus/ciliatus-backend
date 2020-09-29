@@ -2,6 +2,8 @@
 
 namespace App\Ciliatus\Common\Http\Controllers;
 
+use App\Ciliatus\Api\Attributes\CustomAction;
+use App\Ciliatus\Api\Http\Controllers\Actions\Action;
 use App\Ciliatus\Api\Traits\UsesDefaultIndexMethodTrait;
 use App\Ciliatus\Api\Traits\UsesDefaultShowMethodTrait;
 use App\Ciliatus\Common\Exceptions\ModelNotFoundException;
@@ -23,7 +25,8 @@ class AlertController extends Controller
      * @throws ModelNotFoundException
      * @throws AuthorizationException
      */
-    public function acknowledge__update(AcknowledgeAlertRequest $request): JsonResponse
+    #[CustomAction(Action::UPDATE)]
+    public function acknowledge(AcknowledgeAlertRequest $request): JsonResponse
     {
         $this->auth();
 

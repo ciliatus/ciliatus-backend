@@ -2,6 +2,7 @@
 
 namespace App\Ciliatus\Api\Http\Controllers;
 
+use App\Ciliatus\Api\Attributes\CustomAction;
 use App\Ciliatus\Api\Exceptions\MissingRequestFieldException;
 use App\Ciliatus\Api\Exceptions\UnhandleableRelationshipException;
 use App\Ciliatus\Api\Http\Controllers\Actions\DestroyAction;
@@ -422,8 +423,12 @@ class Controller extends \App\Http\Controllers\Controller
     }
 
     /**
-     * Searches for controller methods with an action suffix
-     * like e.g. __store, __update and returns a permission mapping
+     * Searches for controller methods with an action attribute.
+     * This is used to assign non-standard controller methods a standard permission.
+     * The following example would assign permissions equal to Controller->store() to the method Controller->ingest():
+     *
+     *  #[CustomAction(Action::STORE)]
+     *  public function ingest(Request $request);
      *
      * @return array
      * @throws ReflectionException
@@ -433,9 +438,8 @@ class Controller extends \App\Http\Controllers\Controller
         $mapping = [];
         $reflection = new ReflectionClass(get_called_class());
         foreach ($reflection->getMethods() as $method) {
-            if (count($split = explode('__', $method->getName())) == 2) {
-                if (strlen($split[0]) < 1) continue;
-                $mapping[$split[0]] = $split[1];
+            if (count($attr = $method->getAttributes(CustomAction::class)) > 0) {
+                $mapping[$method->getName()] = $attr[0]->newInstance()->action;
             }
         }
 
@@ -502,6 +506,6 @@ class Controller extends \App\Http\Controllers\Controller
     public function gate(): string
     {
         list($package, $model, $action) = $this->getRouteInfo();
-        return $this->permissionMapping()[$action] . '-' . strtolower($package);
+        return $this->permissionMapping()[$action] . '-' . $package;
     }
 }

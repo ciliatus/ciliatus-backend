@@ -8,6 +8,13 @@ use Illuminate\Support\Collection;
 
 abstract class Action implements ActionInterface
 {
+
+    public const INDEX = 'index';
+    public const SHOW = 'show';
+    public const STORE = 'store';
+    public const UPDATE = 'update';
+    public const DESTROY = 'destroy';
+
     /**
      * @var Collection
      */

@@ -2,6 +2,8 @@
 
 namespace App\Ciliatus\Monitoring\Http\Controllers;
 
+use App\Ciliatus\Api\Attributes\CustomAction;
+use App\Ciliatus\Api\Http\Controllers\Actions\Action;
 use App\Ciliatus\Api\Traits\HasNoModelTrait;
 use App\Ciliatus\Common\Enum\HttpStatusCodeEnum;
 use App\Ciliatus\Common\Exceptions\ModelNotFoundException;
@@ -19,13 +21,8 @@ class IngestController extends Controller
 
     use HasNoModelTrait;
 
-    /**
-     * @param IngestRequest $request
-     * @return JsonResponse
-     * @throws ModelNotFoundException
-     * @throws AuthorizationException
-     */
-    public function ingest__store(IngestRequest $request): JsonResponse
+    #[CustomAction(Action::STORE)]
+    public function ingest(IngestRequest $request): JsonResponse
     {
         $this->auth();
 
@@ -45,7 +42,8 @@ class IngestController extends Controller
      * @throws ModelNotFoundException
      * @throws AuthorizationException
      */
-    public function batch_ingest__store(BatchIngestRequest $request): JsonResponse
+    #[CustomAction(Action::STORE)]
+    public function batch_ingest(BatchIngestRequest $request): JsonResponse
     {
         $this->auth();
 

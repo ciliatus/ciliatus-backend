@@ -2,6 +2,8 @@
 
 namespace App\Ciliatus\Automation\Http\Controllers;
 
+use App\Ciliatus\Api\Attributes\CustomAction;
+use App\Ciliatus\Api\Http\Controllers\Actions\Action;
 use App\Ciliatus\Api\Traits\UsesDefaultDestroyMethodTrait;
 use App\Ciliatus\Api\Traits\UsesDefaultIndexMethodTrait;
 use App\Ciliatus\Api\Traits\UsesDefaultShowMethodTrait;
@@ -32,7 +34,8 @@ class ApplianceController extends Controller
      * @throws ModelNotFoundException
      * @throws AuthorizationException
      */
-    public function error__update(ApplianceErrorRequest $request, int $id): JsonResponse
+    #[CustomAction(Action::UPDATE)]
+    public function error(ApplianceErrorRequest $request, int $id): JsonResponse
     {
         $this->auth();
 
@@ -48,7 +51,8 @@ class ApplianceController extends Controller
      * @throws ModelNotFoundException
      * @throws AuthorizationException
      */
-    public function health__show(ApplianceHealthRequest $request, int $id): JsonResponse
+    #[CustomAction(Action::SHOW)]
+    public function health(ApplianceHealthRequest $request, int $id): JsonResponse
     {
         $this->auth();
 

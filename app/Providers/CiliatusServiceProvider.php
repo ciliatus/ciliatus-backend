@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Ciliatus\Common\Models\User;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\ServiceProvider;
 
 class CiliatusServiceProvider extends ServiceProvider
@@ -34,6 +35,7 @@ class CiliatusServiceProvider extends ServiceProvider
         $this->migrations();
         $this->routes();
         $this->authorize();
+        $this->translations();
     }
 
     /**
@@ -56,7 +58,7 @@ class CiliatusServiceProvider extends ServiceProvider
 
         foreach (static::$packages as $package) {
             foreach ($types as $type) {
-                Gate::define($type . '-' . strtolower($package), function (User $user) use ($package, $type) {
+                Gate::define($type . '-' . $package, function (User $user) use ($package, $type) {
                     return $user->hasPermission($package, $type);
                 });
             }
@@ -66,9 +68,19 @@ class CiliatusServiceProvider extends ServiceProvider
     public function migrations()
     {
         foreach (static::$packages as $package) {
-            $path = __DIR__ . '/../Ciliatus/' . $package . '/Database/migrations';
-            if (file_exists($path))
-            $this->loadMigrationsFrom($path);
+            if (file_exists($path = __DIR__ . '/../Ciliatus/' . $package . '/Database/migrations')) {
+                $this->loadMigrationsFrom($path);
+            }
         }
     }
+
+    public function translations()
+    {
+        foreach (static::$packages as $package) {
+            if (file_exists($path = __DIR__ . '/../Ciliatus/' . $package . '/resources/lang')) {
+                $this->loadTranslationsFrom($path, 'ciliatus.' . strtolower($package));
+            }
+        }
+    }
+
 }

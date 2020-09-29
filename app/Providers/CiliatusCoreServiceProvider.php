@@ -14,15 +14,8 @@ class CiliatusCoreServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publish();
-        $this->load();
         $this->observe();
         $this->schedule();
-    }
-
-    private function load()
-    {
-        $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
-        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'ciliatus.core');
     }
 
     private function schedule()
