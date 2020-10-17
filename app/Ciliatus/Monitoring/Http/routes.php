@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Ciliatus\Common\Http\Route;
 
 Route::middleware('api')->prefix('api/v1/monitoring')->group(function () {
     Route::resource('physical_sensors', App\Ciliatus\Monitoring\Http\Controllers\PhysicalSensorController::class);

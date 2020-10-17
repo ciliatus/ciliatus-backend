@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Ciliatus\Common\Http\Route;
 
 Route::middleware('api')->prefix('api/v1/common')->group(function () {
     Route::resource('users', App\Ciliatus\Common\Http\Controllers\UserController::class);

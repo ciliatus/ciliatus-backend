@@ -13,7 +13,7 @@ class CreateAgentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ciliatus_automation__agents', function (Blueprint $table) {
+        Schema::create('ciliatus_core__agents', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->string('name');
@@ -39,6 +39,6 @@ class CreateAgentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ciliatus_automation__agents');
+        Schema::dropIfExists('ciliatus_core__agents');
     }
 }

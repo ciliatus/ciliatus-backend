@@ -29,7 +29,7 @@ class Agent extends Model
     /**
      * @return HasMany
      */
-    public function claimed_executions(): HasMany
+    public function claimed_action_executions(): HasMany
     {
         return $this->hasMany(WorkflowActionExecution::class, 'claimed_by_agent_id');
     }
@@ -37,9 +37,9 @@ class Agent extends Model
     /**
      * @return HasMany
      */
-    public function ready_claimed_executions(): HasMany
+    public function ready_claimed_action_executions(): HasMany
     {
-        return $this->claimed_executions()->where('status', WorkflowExecutionStateEnum::STATE_READY_TO_START());
+        return $this->claimed_action_executions()->where('status', WorkflowExecutionStateEnum::STATE_READY_TO_START());
     }
 
     /**

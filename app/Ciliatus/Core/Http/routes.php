@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Ciliatus\Common\Http\Route;
 
 Route::middleware('api')->prefix('api/v1/core')->group(function () {
     Route::resource('locations', App\Ciliatus\Core\Http\Controllers\LocationController::class);

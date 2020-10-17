@@ -42,10 +42,6 @@ class CreateWorkflowActionExecutionsTable extends Migration
             $table->foreign('workflow_action_id', 'workflow_action_executions__workflow_action_foreign')
                 ->references('id')
                 ->on('ciliatus_automation__workflow_actions');
-
-            $table->foreign('claimed_by_agent_id', 'workflow_action_executions__agent_foreign')
-                ->references('id')
-                ->on('ciliatus_automation__agents');
         });
     }
 

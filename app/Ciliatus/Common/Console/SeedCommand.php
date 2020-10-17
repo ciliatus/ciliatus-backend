@@ -6,6 +6,7 @@ use App\Ciliatus\Automation\Enum\ApplianceStateEnum;
 use App\Ciliatus\Automation\Models\ApplianceGroup;
 use App\Ciliatus\Automation\Models\Capability;
 use App\Ciliatus\Automation\Models\WorkflowAction;
+use App\Ciliatus\Core\Models\Agent;
 use App\Ciliatus\Core\Models\Animal;
 use App\Ciliatus\Core\Models\Habitat;
 use App\Ciliatus\Core\Models\Location;
@@ -69,6 +70,15 @@ class SeedCommand extends Command
             ]);
         }
 
+        echo "Seeding agents ..." . PHP_EOL;
+        $faker = Factory::create();
+        for ($i = 0; $i < 3; $i++) {
+            Agent::create([
+                'name' => $faker->unique()->city
+            ]);
+        }
+
+
         echo "Seeding physical sensors ..." . PHP_EOL;
         $faker = Factory::create();
         Habitat::get()->each(function (Habitat $habitat) use ($faker) {
@@ -78,7 +88,8 @@ class SeedCommand extends Command
                     'physical_sensor_type_id' => random_int(1, 2),
                     'position_x' => random_int(-($habitat->width / 2) + 5, $habitat->width / 2 - 5),
                     'position_y' => random_int(-($habitat->height / 2) + 5, $habitat->height / 2 - 5),
-                    'position_z' => -$habitat->depth / 2 + 5
+                    'position_z' => -$habitat->depth / 2 + 5,
+                    'agent_id' => random_int(1, 3)
                 ]);
             }
         });
@@ -86,7 +97,8 @@ class SeedCommand extends Command
             for ($i = 0; $i < random_int(1, 3); $i++) {
                 $location->physical_sensors()->create([
                     'name' => $faker->unique()->mimeType,
-                    'physical_sensor_type_id' => random_int(1, 2)
+                    'physical_sensor_type_id' => random_int(1, 2),
+                    'agent_id' => random_int(1, 3)
                 ]);
             }
         });
@@ -154,7 +166,8 @@ class SeedCommand extends Command
                         'belongsToModel_id' => $habitat->id,
                         'state' => $states[random_int(0, 3)],
                         'state_text' => $faker->sentence(4),
-                        'maintenance_interval_days' => random_int(30, 180)
+                        'maintenance_interval_days' => random_int(30, 180),
+                        'agent_id' => random_int(1, 3)
                     ]);
 
                     $appliance->setState($appliance->appliance_type->states[random_int(0, $appliance->appliance_type->states->count() - 1)])->save();

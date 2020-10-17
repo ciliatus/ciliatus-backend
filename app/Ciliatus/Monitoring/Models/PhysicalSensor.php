@@ -4,6 +4,7 @@ namespace App\Ciliatus\Monitoring\Models;
 
 use App\Ciliatus\Common\Models\Model;
 use App\Ciliatus\Common\Traits\HasHealthIndicatorTrait;
+use App\Ciliatus\Core\Models\Agent;
 use App\Ciliatus\Core\Models\Habitat;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,7 +20,7 @@ class PhysicalSensor extends Model
      */
     protected $fillable = [
         'name', 'physical_sensor_type_id', 'belongsToModel_type', 'belongsToModel_id',
-        'position_x', 'position_y', 'position_z', 'state_text'
+        'position_x', 'position_y', 'position_z', 'state_text', 'agent_id'
     ];
 
     /**
@@ -37,6 +38,14 @@ class PhysicalSensor extends Model
     {
         $this->logical_sensors()->delete();
         return parent::delete();
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function agent(): BelongsTo
+    {
+        return $this->belongsTo(Agent::class);
     }
 
     /**

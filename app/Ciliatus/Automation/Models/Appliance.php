@@ -7,6 +7,7 @@ use App\Ciliatus\Automation\Events\ApplianceErrorEvent;
 use App\Ciliatus\Common\Models\Model;
 use App\Ciliatus\Common\Traits\HasAlertsTrait;
 use App\Ciliatus\Common\Traits\HasHealthIndicatorTrait;
+use App\Ciliatus\Core\Models\Agent;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,7 +23,7 @@ class Appliance extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'is_active', 'appliance_type_id', 'state', 'state_text',
+        'name', 'is_active', 'appliance_type_id', 'state', 'state_text', 'agent_id',
         'maintenance_interval_days', 'next_maintenance_due_days',
         'last_maintenance_at', 'next_maintenance_due_at', 'is_active_on_conflict'
     ];
@@ -40,6 +41,14 @@ class Appliance extends Model
     protected $with = [
         'appliance_type', 'current_state'
     ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function agent(): BelongsTo
+    {
+        return $this->belongsTo(Agent::class);
+    }
 
     /**
      * @return BelongsTo

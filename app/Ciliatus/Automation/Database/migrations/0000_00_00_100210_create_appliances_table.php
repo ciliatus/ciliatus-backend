@@ -17,6 +17,7 @@ class CreateAppliancesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('appliance_type_id');
             $table->unsignedBigInteger('current_state_id')->nullable()->default(null);
+            $table->unsignedBigInteger('agent_id')->nullable();
 
             $table->string('name');
             $table->string('state')->nullable()->default('unknown');

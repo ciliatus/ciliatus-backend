@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+
+use App\Ciliatus\Common\Http\Route;
 
 Route::middleware('api')->prefix('api/v1/automation')->group(function () {
     Route::resource('appliances', App\Ciliatus\Automation\Http\Controllers\ApplianceController::class);

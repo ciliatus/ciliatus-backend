@@ -18,6 +18,7 @@ class CreatePhysicalSensorsTable extends Migration
             $table->unsignedBigInteger('physical_sensor_type_id');
             $table->unsignedBigInteger('belongsToModel_id')->nullable();
             $table->string('belongsToModel_type')->nullable();
+            $table->unsignedBigInteger('agent_id')->nullable();
 
             $table->string('name')->unique();
             $table->string('state')->nullable()->default('unknown');

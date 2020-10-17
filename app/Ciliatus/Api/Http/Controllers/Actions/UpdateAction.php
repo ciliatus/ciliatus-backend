@@ -23,6 +23,7 @@ class UpdateAction extends Action
      * @param string $model_name
      * @param int $id
      * @return static
+     * @throws ModelNotFoundException
      */
     public static function prepare(Request $request, string $model_name, int $id): self
     {

@@ -10,6 +10,7 @@ use App\Ciliatus\Api\Http\Controllers\Actions\StoreAction;
 use App\Ciliatus\Api\Http\Controllers\Actions\UpdateAction;
 use App\Ciliatus\Api\Http\Requests\Request;
 use App\Ciliatus\Common\Enum\HttpStatusCodeEnum;
+use App\Ciliatus\Common\Exceptions\ModelNotFoundException;
 use App\Ciliatus\Common\Models\Model;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Access\Response;
@@ -142,14 +143,15 @@ class Controller extends \App\Http\Controllers\Controller
     /**
      * @param Request $request
      * @param int $id
-     * @param $except
-     * @param callable $pre Function to execute before model update. Parameters: Request $request
-     * @param callable $post Function to execute after model update. Parameters: mixed $result_of_pre_function, Model $model, Request $request
+     * @param array $except
+     * @param callable|null $pre Function to execute before model update. Parameters: Request $request
+     * @param callable|null $post Function to execute after model update. Parameters: mixed $result_of_pre_function, Model $model, Request $request
      * @return JsonResponse
+     * @throws AuthorizationException
      * @throws MissingRequestFieldException
      * @throws ReflectionException
      * @throws UnhandleableRelationshipException
-     * @throws AuthorizationException
+     * @throws ModelNotFoundException
      */
     public function _update(Request $request, int $id, $except = [], callable $pre = null, callable $post = null): JsonResponse
     {
