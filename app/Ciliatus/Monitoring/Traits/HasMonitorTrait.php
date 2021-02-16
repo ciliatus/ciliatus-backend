@@ -87,15 +87,21 @@ trait HasMonitorTrait
         }
         $time_frame = (int)$time_frame;
 
-        $history = $this->getAverageByMetricInBucket(
-            Carbon::now()->subMinutes($time_frame),
-            Carbon::now(),
-            $bucket_size
-        );
+        $start = Carbon::now()->subMinutes($time_frame);
+        $end = Carbon::now();
+
+        $history = $this->getAverageByMetricInBucket($start, $end, $bucket_size);
 
         foreach ($history as $logical_sensor_type_id => $values) {
+            $cache = [
+                'values' => $values,
+                'start' => $start->format('c'),
+                'end' => $end->format('c'),
+                'bucket_size_min' => $bucket_size
+            ];
+
             $this->setProperty(
-                PropertyTypesEnum::MONITORING_MONITOR_HISTORY_VALUE(), $logical_sensor_type_id, $values, DatabaseDataTypesEnum::DATATYPE_JSON_ARRAY()
+                PropertyTypesEnum::MONITORING_MONITOR_HISTORY_VALUE(), $logical_sensor_type_id, $cache, DatabaseDataTypesEnum::DATATYPE_JSON_ARRAY()
             );
         }
 
