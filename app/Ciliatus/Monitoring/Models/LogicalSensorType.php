@@ -14,7 +14,7 @@ class LogicalSensorType extends Model
     protected $fillable = [
         'name', 'icon',
         'reading_minimum', 'reading_maximum',
-        'reading_type_name', 'reading_type_unit', 'reading_type_symbol',
+        'reading_type_name', 'reading_type_unit', 'reading_type_symbol', 'reading_type_color'
     ];
 
     /**

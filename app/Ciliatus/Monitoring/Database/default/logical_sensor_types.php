@@ -6,11 +6,12 @@ return [
         [
             'name' => trans('ciliatus.monitoring::logical_sensor.name.temperature'),
             'icon' => 'mdi-thermometer',
-            'reading_minimum' => -50,
+            'reading_minimum' => -100,
             'reading_maximum' => 100,
             'reading_type_name' => 'temperature',
             'reading_type_unit' => 'celsius',
-            'reading_type_symbol' => '°C'
+            'reading_type_symbol' => '°C',
+            'reading_type_color' => 'f43f33'
         ],
         [
             'name' => trans('ciliatus.monitoring::logical_sensor.name.humidity'),
@@ -19,7 +20,8 @@ return [
             'reading_maximum' => 100,
             'reading_type_name' => 'humidity',
             'reading_type_unit' => 'percent',
-            'reading_type_symbol' => '%'
+            'reading_type_symbol' => '%',
+            'reading_type_color' => '42b3f4'
         ],
         [
             'name' => trans('ciliatus.monitoring::logical_sensor.name.light_intensity'),
@@ -28,7 +30,8 @@ return [
             'reading_maximum' => 1000000,
             'reading_type_name' => 'light_intensity',
             'reading_type_unit' => 'lumen',
-            'reading_type_symbol' => 'lm'
+            'reading_type_symbol' => 'lm',
+            'reading_type_color' => 'f4b342'
         ],
     ]
 ];

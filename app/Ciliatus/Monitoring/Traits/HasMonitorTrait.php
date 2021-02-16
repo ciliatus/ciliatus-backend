@@ -144,17 +144,18 @@ trait HasMonitorTrait
 
         $this->getProperties(PropertyTypesEnum::MONITORING_MONITOR_VALUE())->each(function (Property $p) {
             $type = LogicalSensorType::where('id', (int)$p->name)->select([
-                'name', 'icon', 'reading_type_name', 'reading_type_unit', 'reading_type_symbol'
+                'name', 'icon', 'reading_type_name', 'reading_type_unit', 'reading_type_symbol', 'reading_type_color'
             ])->first();
 
             $history = $this->getPropertyValue(PropertyTypesEnum::MONITORING_MONITOR_HISTORY_VALUE(), $p->name, []);
+            $last_refresh = count($history) > 0 ? $this->getProperty(PropertyTypesEnum::MONITORING_MONITOR_HISTORY_VALUE(), $p->name)->updated_at : null;
 
             $this->_monitor[$type->name] = [
                 'type' => $type,
                 'value' => $p->value,
                 'history' => $history,
-                'last_refresh_at' => $p->created_at,
-                'last_refresh_diff_minutes' => $p->created_at->diffInMinutes(Carbon::now())
+                'last_refresh_at' => $last_refresh,
+                'last_refresh_diff_minutes' => $last_refresh?->diffInMinutes(Carbon::now())
             ];
         });
 
@@ -211,13 +212,13 @@ trait HasMonitorTrait
      * @param Carbon $end
      * @param int $bucket_size
      * @param int $logical_sensor_type_id
-     * @return array|mixed
+     * @return array|bool
      */
     public function getHistoryForMetric(
         Carbon $start,
         Carbon $end,
         int $bucket_size,
-        int $logical_sensor_type_id)
+        int $logical_sensor_type_id): mixed
     {
         $logical_sensor_ids = $this->physical_sensors->map(function ($physical_sensor) use ($logical_sensor_type_id) {
             return $physical_sensor->logical_sensors->filter(function ($logical_sensor) use ($logical_sensor_type_id) {
@@ -251,6 +252,10 @@ trait HasMonitorTrait
                 });
             })->flatten()->toArray();
 
+        $logical_sensor_type_ids = LogicalSensor::whereIn('id', $logical_sensor_ids)->get()->map(function ($logical_sensor) {
+            return $logical_sensor->logical_sensor_type_id;
+        })->flatten()->unique()->toArray();
+
         $history = [];
         do {
             $bucket_starts_at = clone $cursor;
@@ -268,9 +273,21 @@ trait HasMonitorTrait
                 ->groupBy('ciliatus_monitoring__logical_sensors.logical_sensor_type_id')
                 ->get();
 
+            $logical_sensor_types_found = [];
             foreach ($buckets as $bucket) {
                 if (!isset($history[$bucket->logical_sensor_type_id])) $history[$bucket->logical_sensor_type_id] = [];
                 $history[$bucket->logical_sensor_type_id][] = round($bucket->avg, 2);
+
+                if (!isset($logical_sensor_types_found[$bucket->logical_sensor_type_id])) {
+                    $logical_sensor_types_found[$bucket->logical_sensor_type_id] = true;
+                }
+            }
+
+            // Fill empty buckets with null
+            foreach ($logical_sensor_type_ids as $id) {
+                if (isset($logical_sensor_types_found[$id])) continue;
+                if (!isset($history[$id])) $history[$id] = [];
+                $history[$id][] = null;
             }
         } while ($cursor->isBefore($end));
 

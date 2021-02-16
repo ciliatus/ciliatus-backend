@@ -2,8 +2,8 @@
 
 namespace App\Ciliatus\Automation\Console;
 
+use App\Ciliatus\Automation\Jobs\CalculateMaintenanceJob;
 use App\Ciliatus\Automation\Models\Appliance;
-use App\Ciliatus\Monitoring\Jobs\CalculateMaintenanceJob;
 use Illuminate\Console\Command;
 
 class CalculateMaintenanceCommand extends Command
