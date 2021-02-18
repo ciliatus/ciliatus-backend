@@ -10,7 +10,7 @@ class AlertStartedEvent extends Event implements EventInterface
      */
     public function broadcastAs(): string
     {
-        return 'Common.AlertStartedEvent';
+        return 'AlertStartedEvent';
     }
 
 }

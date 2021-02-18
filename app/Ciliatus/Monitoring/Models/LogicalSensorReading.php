@@ -17,6 +17,10 @@ class LogicalSensorReading extends Model
         'read_at'
     ];
 
+    protected $dates = [
+        'read_at'
+    ];
+
     /**
      * @return BelongsTo
      */

@@ -10,7 +10,7 @@ class AlertEndedEvent extends Event implements EventInterface
      */
     public function broadcastAs(): string
     {
-        return 'Common.AlertEndedEvent';
+        return 'AlertEndedEvent';
     }
 
 }

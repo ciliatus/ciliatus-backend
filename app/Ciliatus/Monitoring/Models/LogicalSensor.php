@@ -83,6 +83,7 @@ class LogicalSensor extends Model
         $this->save();
 
         $this->queueAffectedModelRefresh();
+        $this->requestFrontendRefresh();
 
         return $reading;
     }
@@ -93,8 +94,8 @@ class LogicalSensor extends Model
     public function queueAffectedModelRefresh(): LogicalSensor
     {
         if (!$this->isAffectedModelRefreshQueued() && !is_null($this->getAffectedModel()) && !$this->is_in_batch_mode) {
-            dispatch(new RefreshMonitorJob($this->getAffectedModel()))->onQueue('ciliatus::monitor_refresh_queue');
-            dispatch(new RefreshMonitorHistoryJob($this->getAffectedModel()))->onQueue('ciliatus::monitor_history_refresh_queue');
+            dispatch(new RefreshMonitorJob($this->getAffectedModel()))->onQueue('ciliatus::monitoring');
+            dispatch(new RefreshMonitorHistoryJob($this->getAffectedModel()))->onQueue('ciliatus::monitoring');
         }
 
         return $this;

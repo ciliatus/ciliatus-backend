@@ -25,6 +25,9 @@ class SetupCommand extends Command
             Artisan::call('jetstream:install livewire');
         }
 
+        echo '# Setting up queues ...' . PHP_EOL;
+        Artisan::call('queue:table');
+
         echo '# Migrating database ...' . PHP_EOL;
         Artisan::call('migrate');
 

@@ -14,7 +14,7 @@ class SensorReadingSeedCommand extends Command
     /**
      * @var string
      */
-    protected $signature = 'ciliatus:sensor_reading_seed';
+    protected $signature = 'ciliatus:sensor_reading_seed {--minutes=1440}';
 
     /**
      * @var string
@@ -31,18 +31,18 @@ class SensorReadingSeedCommand extends Command
                 'unit' => 'celsius',
                 'base' => 20,
                 'factor' => 1,
-                'random' => [-1, 1]
+                'random' => [-0.1, 0.1]
             ],
             'humidity' => [
                 'unit' => 'percent',
                 'base' => 50,
                 'factor' => 6,
-                'random' => [-2, 2]
+                'random' => [-0.5, 0.5]
             ]
         ];
 
         $now = Carbon::now();
-        $start = (clone $now)->subDay();
+        $start = (clone $now)->subMinutes((int)$this->option('minutes'));
 
         foreach ($types as $type_name => $settings) {
             $type = LogicalSensorType::where('name', trans('ciliatus.monitoring::logical_sensor.name.' . $type_name))->first();
@@ -52,11 +52,11 @@ class SensorReadingSeedCommand extends Command
 
                 $cursor = clone $start;
                 do {
-                    $diff = $now->diffInMinutes($cursor);
-                    $variable = $diff / 720 * pi();
+                    $diff = $cursor->diffInMinutes((clone $cursor)->startOfDay());
+                    $variable = cos($diff / 720 * pi());
                     $value = $settings['base'] + $variable * $settings['factor'] + random_int($settings['random'][0] * 100, $settings['random'][1] * 100) / 100;
                     $sensor->addReading($value, $cursor);
-                    $cursor->addMinutes(5);
+                    $cursor->addMinutes(10);
                 } while ($cursor->isBefore($now));
 
                 $sensor->endBatchMode();

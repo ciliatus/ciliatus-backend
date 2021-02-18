@@ -150,7 +150,7 @@ trait HasMonitorTrait
 
         $this->getProperties(PropertyTypesEnum::MONITORING_MONITOR_VALUE())->each(function (Property $p) {
             $type = LogicalSensorType::where('id', (int)$p->name)->select([
-                'name', 'icon', 'reading_type_name', 'reading_type_unit', 'reading_type_symbol', 'reading_type_color'
+                'id', 'name', 'icon', 'reading_type_name', 'reading_type_unit', 'reading_type_symbol', 'reading_type_color'
             ])->first();
 
             $history = $this->getPropertyValue(PropertyTypesEnum::MONITORING_MONITOR_HISTORY_VALUE(), $p->name, []);
@@ -158,6 +158,7 @@ trait HasMonitorTrait
 
             $this->_monitor[$type->name] = [
                 'type' => $type,
+                'logical_sensors' => $this->getLogicalSensors(['logical_sensor_type_id' => (int)$p->name], true),
                 'value' => $p->value,
                 'history' => $history,
                 'last_refresh_at' => $last_refresh,
@@ -168,6 +169,8 @@ trait HasMonitorTrait
         if (count($this->_monitor) < 1) $this->_monitor = null;
 
         Cache::put($this->monitorCacheKey(), $this->_monitor, $this->monitorCacheTtl());
+
+        $this->requestFrontendRefresh();
     }
 
     /**

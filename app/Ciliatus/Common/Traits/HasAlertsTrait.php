@@ -50,7 +50,7 @@ trait HasAlertsTrait
         ]);
 
         if ($this->isAlertBroadcastingEnabled($alert)) {
-            dispatch(new BroadcastAlertJob($alert));
+            dispatch(new BroadcastAlertJob($alert))->onQueue('ciliatus::default');
         }
 
         return $alert;

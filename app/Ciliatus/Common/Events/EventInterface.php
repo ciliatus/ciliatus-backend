@@ -17,9 +17,4 @@ interface EventInterface
      */
     public function broadcastAs(): string;
 
-    /**
-     * @return array
-     */
-    public function broadcastWith(): array;
-
 }

@@ -76,7 +76,7 @@ class Location extends Model
      */
     public function enrich(): Model
     {
-        $this->renderMonitor();
+        $this->enrichMonitor();
 
         return parent::enrich();
     }

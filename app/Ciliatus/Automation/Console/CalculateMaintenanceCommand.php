@@ -25,7 +25,7 @@ class CalculateMaintenanceCommand extends Command
     public function handle()
     {
         Appliance::get()->each(function (Appliance $appliance) {
-            dispatch(new CalculateMaintenanceJob($appliance));
+            dispatch(new CalculateMaintenanceJob($appliance))->onQueue('ciliatus::default');
         });
     }
 

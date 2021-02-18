@@ -5,6 +5,7 @@ namespace App\Ciliatus\Common\Models;
 use App\Ciliatus\Api\Http\Transformers\GenericTransformer;
 use App\Ciliatus\Common\Enum\DatabaseDataTypesEnum;
 use App\Ciliatus\Common\Enum\PropertyTypesEnum;
+use App\Ciliatus\Common\Events\FrontendModelUpdateRequestEvent;
 use App\Ciliatus\Common\Exceptions\InvalidPropertyDataTypeException;
 use App\Ciliatus\Common\Traits\HasHistoryTrait;
 use Exception;
@@ -256,7 +257,7 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model implements Mode
      * @param mixed $default
      * @return mixed|null
      */
-    public function getPropertyValue(PropertyTypesEnum $type, string $name, $default = null)
+    public function getPropertyValue(PropertyTypesEnum $type, string $name, $default = null): mixed
     {
         $property = $this->getProperty($type, $name);
         if (is_null($property)) return $default;
@@ -292,11 +293,13 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model implements Mode
      * @param PropertyTypesEnum $type
      * @throws Exception
      */
-    public function deleteProperties(PropertyTypesEnum $type): void
+    public function deleteProperties(PropertyTypesEnum $type): self
     {
         $this->getProperties($type)->each(function (Property $property) {
             $property->delete();
         });
+
+        return $this;
     }
 
     /**
@@ -304,11 +307,13 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model implements Mode
      * @param string $name
      * @throws Exception
      */
-    public function deleteProperty(PropertyTypesEnum $type, string $name): void
+    public function deleteProperty(PropertyTypesEnum $type, string $name): self
     {
         if (!is_null($p = $this->getProperty($type, $name))) {
             $p->delete();
         }
+
+        return $this;
     }
 
     /**
@@ -332,6 +337,16 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model implements Mode
         }
 
         throw new InvalidPropertyDataTypeException(gettype($value));
+    }
+
+    /**
+     * @return $this
+     */
+    public function requestFrontendRefresh(): self
+    {
+        FrontendModelUpdateRequestEvent::dispatch($this);
+
+        return $this;
     }
 
 }
